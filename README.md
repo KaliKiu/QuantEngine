@@ -1,4 +1,4 @@
-# quantstuff
+# QuantEngine
 
 A C++ engine for live market data, predictive modeling, and systematic market conclusions.
 
