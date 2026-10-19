@@ -14,6 +14,9 @@
 
 static constexpr const char* CONFIG_FILE_DIR =  "../data/config.json";
 
+
+
+//THREAD SYSTEM IS OUT OF DATE, ITS NOT SAFE THIS WAY. Will be updated
 int main(){
     std::cout <<"meow";
     Config::loadconfig(CONFIG_FILE_DIR);

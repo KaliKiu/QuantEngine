@@ -9,4 +9,6 @@ add_executable(meow
                 src/Analyze/momentumanalyzer.cpp
                 src/Data/parser.cpp 
                 src/config.cpp)
+
+target_include_directories(meow PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_link_libraries(meow curl CURL::libcurl )
