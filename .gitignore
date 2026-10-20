@@ -2,3 +2,4 @@
 /include/nlohmann/json.hpp
 /src/Tests
 todo.txt
+.DS_Store
