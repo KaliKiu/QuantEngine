@@ -1,5 +1,5 @@
 #include <iostream>
-#include "include/nlohmann/json.hpp"
+#include "nlohmann/json.hpp"
 #include <stdio.h>
 #include <fstream>
 #include "Config/config.hpp"
@@ -16,6 +16,7 @@ namespace Config{
             std::cerr <<"error opening file";
             return;
         }
+        std::cout<<"meow";
         json configjson = json::parse(config_file);
         
         config.XAUUSD.apiXAUUSD = configjson["XAUUSD"]["apiXAUUSD"];

@@ -9,15 +9,16 @@ message(STATUS "CXX Compiler Path: ${CMAKE_CXX_COMPILER}")
 message(STATUS "CXX Compiler Version: ${CMAKE_CXX_COMPILER_VERSION}")
 
 #add_executable(meow 
-#               src/main.cpp 
-#               src/HttpClient/httpclient.cpp
+#                src/main.cpp 
 #                src/Analyze/momentumanalyzer.cpp
 #                src/Data/parser.cpp 
-#                src/config.cpp)
+#                )
 #
 
 add_executable(meow
                 src/main.cpp
-                src/Engine/engine.hpp)       
+                src/Engine/engine.hpp
+                src/HttpClient/httpclient.hpp
+                src/HttpClient/httpclient.cpp)       
 target_include_directories(meow PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(meow curl CURL::libcurl )
+target_link_libraries(meow PRIVATE CURL::libcurl)

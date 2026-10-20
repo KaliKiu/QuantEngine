@@ -1,9 +1,6 @@
 #include <string>
 #include <curl/curl.h>
 #include <iostream>
-#include "../Config/config.hpp"
-#include "../Queue/queue.hpp"
-#include "../Data/marketdata.hpp"
 #include "httpclient.hpp"
 
 
@@ -18,14 +15,14 @@
         return size * nmemb;
     }
 
-    void HttpClient::getData(Queue<std::string>& queue){
+    void HttpClient::getData(){
 
         CURL *curl;
         CURLcode res;
         std::string buffer;
-
+        std::string xausdurl = "https://biquote.io/api/latest?&symbols=XAUUSD";
         curl = curl_easy_init();
-        curl_easy_setopt(curl, CURLOPT_URL, Config::config.XAUUSD.apiXAUUSD.c_str());
+        curl_easy_setopt(curl, CURLOPT_URL, xausdurl.c_str());
         curl_easy_setopt(curl,CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl,CURLOPT_WRITEDATA, &buffer);
         
@@ -36,12 +33,13 @@
         this->buffer = buffer;
         std::cout<< this->buffer;
     }
-    void HttpClient::pushData(Queue<std::string>& queue){
-        this->getData(queue);
+    std::string HttpClient::pushData(){
+        this->getData();
         if(this->buffer.empty()){
             std::cout<<"empty string";
-            return;
+            return "";
         }
-        queue.push(this->buffer);
+        std::string buff = this->buffer;
         this->buffer = "";
+        return buff;
     }

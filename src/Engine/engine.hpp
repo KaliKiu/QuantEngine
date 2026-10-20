@@ -38,9 +38,9 @@ namespace quant {
 
         //sources can emit multiple values., executes when run()
         template <class T, class F>
-        Output<T> addSource(std::string name, F producer){
+        Output<T> addSource(std::string name, F&& producer){
             const auto id = registerNode(std::move(name), typeid(void), typeid(T));
-            nodes_[id].source = [this,id,producer = std::move(producer)]() mutable {
+            nodes_[id].source = [this,id,producer = std::forward<F>(producer)]() mutable {
                 producer([this,id](T value){
                     dispatch(id,std::any(std::move(value)));
                 });
@@ -51,9 +51,9 @@ namespace quant {
 
         //receives In, produces Out
         template <class In, class Out, class F>
-        Transform<In,Out> addTransform(std::string name, F transform){
+        Transform<In,Out> addTransform(std::string name, F&& transform){
             const auto id = registerNode(std::move(name), typeid(In), typeid(Out));
-            nodes_[id].process = [this, id, transform = std::move(transform)](const std::any& value) mutable{
+            nodes_[id].process = [this, id, transform = std::forward<F>(transform)](const std::any& value) mutable{
                 auto result = transform(std::any_cast<const In&>(value));
                 dispatch(id, std::any(std::move(result)));
             };
@@ -63,12 +63,12 @@ namespace quant {
 
         
         template<class T, class F>
-        Input<T> addSink(std::string name, F consumer){
+        Input<T> addSink(std::string name, F&& consumer){
             const auto id = registerNode(std::move(name),typeid(T),typeid(void));
-            nodes_[id].process = [consumer = std::move(consumer)](const std::any& value) mutable{
+            nodes_[id].process = [consumer = std::forward<F>(consumer)](const std::any& value) mutable{
                 consumer(std::any_cast<const T&>(value));
             };
-
+        
             return {id};
         }
 

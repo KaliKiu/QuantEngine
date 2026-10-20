@@ -3,10 +3,10 @@
 #include <thread>
 #include <variant>
 #include "Engine/engine.hpp"
-
-/*
 #include "HttpClient/httpclient.hpp"
-#include "Config/config.hpp"
+/*
+
+
 #include "Queue/queue.hpp"
 #include "Data/marketdata.hpp"
 #include "Data/data.hpp"
@@ -18,29 +18,26 @@ static constexpr const char* CONFIG_FILE_DIR =  "../data/config.json";
 
 */
 
-//THREAD SYSTEM IS OUT OF DATE, ITS NOT SAFE THIS WAY. Will be updated
 int main(){
-    std::cout <<"meow";
+    std::cout<<"meowmoe";
     quant::Engine engine;
-
-    auto source = engine.addSource<int>("Source",
-        [](auto meow){
-            meow(11);
-            meow(12);
+    HttpClient http;
+    
+    
+    auto source = engine.addSource<std::string>("Source",
+    //producer lamda
+        [&http](auto meow){
+            for(int i=0; i<10; i++){
+            meow(http.pushData());
+            }
         });
 
-    auto transform = engine.addTransform<int,double>("Transform",
-        [](const int& value)mutable{
-            return static_cast<double>(value)+0.1;
-        });
-
-    auto sink = engine.addSink<double>("Sink",
-        [](const double& value){
+    auto sink = engine.addSink<std::string>("Sink",
+        [](std::string value){
             std::cout<<value <<"\n";
         });
 
-    engine.connect(source,transform.input);
-    engine.connect(transform.output,sink);
+    engine.connect(source,sink);
     engine.run();
 }
 
