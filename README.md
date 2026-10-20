@@ -39,7 +39,7 @@ This is mainly a learning project, but the goal is to build something that could
 ## Quick start
 Make sure to include an nlohmann/json header file
 ```bash
-git clone https://github.com/KaliKiu/quantstuff.git
+git clone --recurse-submodules https://github.com/KaliKiu/QuantEngine.git
 cd quantstuff
 mkdir build && cd build
 cmake ..

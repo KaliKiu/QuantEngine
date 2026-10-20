@@ -15,10 +15,14 @@ message(STATUS "CXX Compiler Version: ${CMAKE_CXX_COMPILER_VERSION}")
 #                )
 #
 
+add_subdirectory(external/json)
+
 add_executable(meow
                 src/main.cpp
                 src/Engine/engine.hpp
                 src/HttpClient/httpclient.hpp
                 src/HttpClient/httpclient.cpp)       
 target_include_directories(meow PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
-target_link_libraries(meow PRIVATE CURL::libcurl)
+target_link_libraries(meow PRIVATE 
+                            CURL::libcurl
+                            nlohmann_json::nlohmann_json)
