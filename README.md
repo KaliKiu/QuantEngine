@@ -24,6 +24,7 @@ A C++ engine for live market data, predictive modeling, and systematic market co
 
 ## Planned next steps
 - Implementing Adapters between components so Dataflow framework can used.
+- Asynch DAG execution for specific components to enhance speed
 
 ## Why this project
 This is mainly a learning project, but the goal is to build something that could grow into a real market analysis tool. It helps me practice:
