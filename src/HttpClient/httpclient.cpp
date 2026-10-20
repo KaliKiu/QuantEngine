@@ -8,7 +8,6 @@
 
 
     HttpClient::HttpClient (){}
-
     HttpClient::~HttpClient(){
 
     }
@@ -18,7 +17,7 @@
         return size * nmemb;
     }
 
-    void HttpClient::getData(Queue<std::string>& queue){
+    std::string HttpClient::getData(){
 
         CURL *curl;
         CURLcode res;
@@ -35,6 +34,8 @@
         std::cout <<this->count++;
         this->buffer = buffer;
         std::cout<< this->buffer;
+
+        return this->buffer;
     }
     void HttpClient::pushData(Queue<std::string>& queue){
         this->getData(queue);

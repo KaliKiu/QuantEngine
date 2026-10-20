@@ -10,9 +10,9 @@ class HttpClient{
 
     public:
     HttpClient();
-    HttpClient(HttpClient httpclient);
+    HttpClient();
     ~HttpClient();
 
-    void getData(Queue<std::string>& queue);
+    std::string getData();
     void pushData(Queue<std::string>& queue);
 };

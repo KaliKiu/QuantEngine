@@ -9,6 +9,6 @@
 
 class Parser{
     public:
-    static MarketData::Latest parseLatest(Queue<std::string>& queue);
+    static MarketData::Latest parseLatest(const std::string& raw);
     static MarketData::Ohlc parseOhlc(Queue<std::string>& queue);
 };
