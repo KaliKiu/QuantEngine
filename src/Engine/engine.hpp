@@ -61,7 +61,7 @@ namespace quant {
             return {{id},{id}};
         }
 
-        //connect ports
+        
         template<class T, class F>
         Input<T> addSink(std::string name, F consumer){
             const auto id = registerNode(std::move(name),typeid(T),typeid(void));
@@ -96,9 +96,10 @@ namespace quant {
         }
 
         private:
+            //wrapper of an component representing it iwithing execution graph
             struct InternalNode {
                 std::string name;
-                //warpper of type_info
+
                 std::type_index input;
                 std::type_index output;
 
@@ -108,8 +109,8 @@ namespace quant {
                 std::vector<std::size_t> downstream;
             };
 
-            std::vector<InternalNode> nodes_;
-            std::vector<std::size_t> sources_;
+            std::vector<InternalNode> nodes_; //holds all InternalNodes
+            std::vector<std::size_t> sources_; //Holds all 
 
             std::size_t registerNode(std::string name, std::type_index in, std::type_index out) {
                 const auto id = nodes_.size();

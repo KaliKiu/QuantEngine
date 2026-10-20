@@ -2,7 +2,9 @@
 #include <curl/curl.h>
 #include <thread>
 #include <variant>
+#include "Engine/engine.hpp"
 
+/*
 #include "HttpClient/httpclient.hpp"
 #include "Config/config.hpp"
 #include "Queue/queue.hpp"
@@ -14,42 +16,31 @@
 
 static constexpr const char* CONFIG_FILE_DIR =  "../data/config.json";
 
-
+*/
 
 //THREAD SYSTEM IS OUT OF DATE, ITS NOT SAFE THIS WAY. Will be updated
 int main(){
     std::cout <<"meow";
-    Config::loadconfig(CONFIG_FILE_DIR);
-    Queue<std::string> queue;
-    HttpClient http;
-    Data data;
-    MarketData::StructType datatype = MarketData::Latest{};
+    quant::Engine engine;
 
-    std::cout<<"mo";
-    std::thread t([&http, &queue](){
-        for(int i = 0; i<100; i++){
-            http.pushData(queue);
-        }
-    });
+    auto source = engine.addSource<int>("Source",
+        [](auto meow){
+            meow(11);
+            meow(12);
+        });
 
-    if(t.joinable()){
-        std::cout<<"thread joined";
-        t.detach();
-    }
-    std::thread p([&data,&queue,&datatype](){
-        while(true){
-            
-            data.addData(Parser::parseLatest(queue));
-        }
-        
-    });
+    auto transform = engine.addTransform<int,double>("Transform",
+        [](const int& value)mutable{
+            return static_cast<double>(value)+0.1;
+        });
 
-    if(p.joinable()){
-        std::cout <<"thread joined";
-        p.join();
-    }
+    auto sink = engine.addSink<double>("Sink",
+        [](const double& value){
+            std::cout<<value <<"\n";
+        });
 
-    std::unique_ptr<Analyzer> ok = std::make_unique<MomentumAnalyzer>();
-
+    engine.connect(source,transform.input);
+    engine.connect(transform.output,sink);
+    engine.run();
 }
 
