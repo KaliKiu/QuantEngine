@@ -6,20 +6,24 @@ A C++ engine for live market data, predictive modeling, and systematic market co
 - Fetch market data from APIs
 - Parse it into structured objects
 - Store and process it in a clean pipeline
-- Eventually add analysis modules for indicators and signal detection
-- Scale it into a more serious market analysis tool over time
+- Analysis modules for indicators and signal detection
+- Scale into adding more components / dataflow possibilities
+
+## Dataflow framework
+- Built around 3 pillars which lets each above mentioned component be used in different order to form DAG
+- Source, Transform and Sink
+- Generic programmed, with boundaries set on specific components.
 
 ## Current state
 - HTTP client for fetching data
-- Queue + parser pipeline
+- Queue for stream pipeline
+- Json Parser
 - Typed market data structures
 - Analyzer interface and momentum analyzer scaffold
+- Framework built, lets components be connected and used.
 
 ## Planned next steps
-- Abstracting each component of the engine
-- Adapting different workflows and building adapters between components
-- Providing a clean API of Data fetching, parsing, analysing and storing.
-- SQLite interface
+- Implementing Adapters between components so Dataflow framework can used.
 
 ## Why this project
 This is mainly a learning project, but the goal is to build something that could grow into a real market analysis tool. It helps me practice:
