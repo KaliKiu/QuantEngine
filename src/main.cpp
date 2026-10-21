@@ -2,6 +2,8 @@
 #include <curl/curl.h>
 #include <thread>
 #include <variant>
+
+#include "Error/error.hpp"
 #include "Engine/engine.hpp"
 #include "HttpClient/httpclient.hpp"
 /*
@@ -19,16 +21,21 @@ static constexpr const char* CONFIG_FILE_DIR =  "../data/config.json";
 */
 
 int main(){
-    std::cout<<"meowmoe";
     quant::Engine engine;
-    HttpClient http;
+    HttpClient http("https://bite.io/api/latest?&symbols=XAUUSD");
     
     
     auto source = engine.addSource<std::string>("Source",
     //producer lamda
-        [&http](auto meow){
+        [&http](auto push){
             for(int i=0; i<10; i++){
-            meow(http.pushData());
+                auto data = http.getSingleData();
+                if(!data){
+                    auto err = data.error();
+                    std::cerr<<Error::toString(err)<<std::endl;
+                    break;
+                }
+                push(*data);
             }
         });
 

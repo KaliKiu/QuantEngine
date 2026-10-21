@@ -1,13 +1,7 @@
 /build
+/.vscode
 /include/nlohmann/json.hpp
 /src/Tests
 todo.txt
-.DS_Store.DS_Store
-._*
-.DS_Store
-**/.DS_Store
-._*
-.DS_Store
-**/.DS_Store
-.DS_Store
-**/.DS_Store
+.clangd
+
