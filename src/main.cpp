@@ -22,7 +22,7 @@ static constexpr const char* CONFIG_FILE_DIR =  "../data/config.json";
 
 int main(){
     quant::Engine engine;
-    HttpClient http("https://bite.io/api/latest?&symbols=XAUUSD");
+    HttpClient http("https://biquote.io/api/latest?&symbols=XAUUSD");
     
     
     auto source = engine.addSource<std::string>("Source",
@@ -31,8 +31,7 @@ int main(){
             for(int i=0; i<10; i++){
                 auto data = http.getSingleData();
                 if(!data){
-                    auto err = data.error();
-                    std::cerr<<Error::toString(err)<<std::endl;
+                    Error::log_error(data.error());
                     break;
                 }
                 push(*data);
