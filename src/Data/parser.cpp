@@ -1,14 +1,12 @@
 #include <nlohmann/json.hpp>
-#include "../Queue/queue.hpp"
-#include "../Config/config.hpp"
 #include "marketdata.hpp"
 #include "data.hpp"
 #include "parser.hpp"
 
 using json = nlohmann::json;
 
-MarketData::Latest Parser::parseLatest(Queue<std::string>& queue){
-    std::string buffer = queue.pop();
+MarketData::Latest Parser::parseLatest(std::string buffer){
+    
     
     const json rawentry_top = json::parse(buffer);
     std::string market = "BTCUSD";

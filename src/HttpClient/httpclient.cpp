@@ -34,5 +34,5 @@
         }
         std::string buff = std::move(this->buffer);
         this->buffer.clear();
-        return buff;
+        return std::move(buff);
     }

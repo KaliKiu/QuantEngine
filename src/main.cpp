@@ -6,13 +6,13 @@
 #include "Error/error.hpp"
 #include "Engine/engine.hpp"
 #include "HttpClient/httpclient.hpp"
+#include "Data/marketdata.hpp"
+#include "Data/data.hpp"
+#include "Data/parser.hpp"
 /*
 
 
 #include "Queue/queue.hpp"
-#include "Data/marketdata.hpp"
-#include "Data/data.hpp"
-#include "Data/parser.hpp"
 #include "Analyze/analyzer.hpp"
 #include "Analyze/momentumanalyzer.hpp"
 
@@ -34,16 +34,26 @@ int main(){
                     Error::log_error(data.error());
                     break;
                 }
+                //push(*data);
                 push(*data);
             }
         });
+        /*auto transform = engine.addTransform<std::string, MarketData::Ohlc>("Transform",
+        [](std::string value){
+            return value + "meow";
+        });*/
+    
+    /*auto transform = engine.addTransform<std::string, MarketData::Ohlc>("Transform",
+        [](std::string value){
+            return value + "meow";
+        });*/
 
     auto sink = engine.addSink<std::string>("Sink",
         [](std::string value){
             std::cout<<value <<"\n";
         });
 
-    engine.connect(source,sink);
+    engine.connect(source, sink);
     engine.run();
 }
 
