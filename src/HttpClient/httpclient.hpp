@@ -1,6 +1,7 @@
 #pragma once
 
 #include <tl/expected.hpp>
+#include <cstdint>
 #include "../Error/error.hpp"
 
 class HttpClient{

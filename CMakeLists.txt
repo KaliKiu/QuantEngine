@@ -28,3 +28,4 @@ target_include_directories(meow PRIVATE
 target_link_libraries(meow PRIVATE 
     CURL::libcurl
 )
+##pull submodules before compilation : git submodule update --init --recursive

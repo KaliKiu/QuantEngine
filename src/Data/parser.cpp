@@ -9,7 +9,7 @@ MarketData::Latest Parser::parseLatest(std::string buffer){
     
     
     const json rawentry_top = json::parse(buffer);
-    std::string market = "BTCUSD";
+    std::string market = "XAUUSD";
     const auto& rawentry = rawentry_top[market];
 
     MarketData::Latest data{

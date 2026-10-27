@@ -9,17 +9,16 @@
 #include "Data/marketdata.hpp"
 #include "Data/data.hpp"
 #include "Data/parser.hpp"
-/*
+
 
 
 #include "Queue/queue.hpp"
 #include "Analyze/analyzer.hpp"
 #include "Analyze/momentumanalyzer.hpp"
 
-static constexpr const char* CONFIG_FILE_DIR =  "../data/config.json";
 
-*/
 
+//EXAMPLE DAG GRAPH FOR API DATA FETCHING + PARSING + SINKING
 int main(){
     quant::Engine engine;
     HttpClient http("https://biquote.io/api/latest?&symbols=XAUUSD");
@@ -38,22 +37,19 @@ int main(){
                 push(*data);
             }
         });
-        /*auto transform = engine.addTransform<std::string, MarketData::Ohlc>("Transform",
-        [](std::string value){
-            return value + "meow";
-        });*/
-    
-    /*auto transform = engine.addTransform<std::string, MarketData::Ohlc>("Transform",
-        [](std::string value){
-            return value + "meow";
-        });*/
 
-    auto sink = engine.addSink<std::string>("Sink",
+    auto transform = engine.addTransform<std::string, MarketData::Latest>("Transform",
         [](std::string value){
-            std::cout<<value <<"\n";
+            return Parser::parseLatest(value);
         });
 
-    engine.connect(source, sink);
+    auto sink = engine.addSink<MarketData::Latest>("Sink",
+        [](MarketData::Latest value){
+            value.dump();
+        });
+    
+    engine.connect(source, transform.input);
+    engine.connect(transform.output, sink);
     engine.run();
 }
 
