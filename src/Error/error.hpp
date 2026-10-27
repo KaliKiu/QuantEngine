@@ -13,6 +13,10 @@ class Error{
         NetworkFailure,
         Timeout,
     };
+
+    enum class InfluxDBError{
+        SerializingError
+    };
     
     template<typename T>
     static void log_error(T error_code){
@@ -22,7 +26,7 @@ class Error{
 };
 
 template<typename T>
-    std::string_view to_string(T error);
+    std::string_view to_string(T error) = delete;
 
     template<>
     inline std::string_view to_string(Error::HttpError error){
@@ -30,6 +34,13 @@ template<typename T>
             case Error::HttpError::EmptyBuffer: return "EmptyBuffer";
             case Error::HttpError::NetworkFailure: return "NetworkFailure";
             case Error::HttpError::Timeout: return "Timeout";
+        }
+        return "Unknown Error";
+    }
+    template<>
+    inline std::string_view to_string(Error::InfluxDBError error){
+        switch(error){
+            case Error::InfluxDBError::SerializingError: return "SerializingError";
         }
         return "Unknown Error";
     }

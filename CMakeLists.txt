@@ -17,6 +17,7 @@ add_executable(meow
     src/main.cpp
     src/HttpClient/httpclient.cpp
     src/Data/parser.cpp
+    src/InfluxDB/influxserializer.cpp
 )
 
 target_include_directories(meow PRIVATE 

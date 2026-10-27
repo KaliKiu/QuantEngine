@@ -9,7 +9,8 @@
 #include "Data/marketdata.hpp"
 #include "Data/data.hpp"
 #include "Data/parser.hpp"
-
+#include "InfluxDB/influxclient.hpp"
+#include "InfluxDB/influxserializer.hpp"
 
 
 #include "Queue/queue.hpp"
@@ -33,23 +34,33 @@ int main(){
                     Error::log_error(data.error());
                     break;
                 }
-                //push(*data);
                 push(*data);
             }
         });
 
     auto transform = engine.addTransform<std::string, MarketData::Latest>("Transform",
-        [](std::string value){
+        [](std::string value) -> MarketData::Latest{
             return Parser::parseLatest(value);
         });
 
-    auto sink = engine.addSink<MarketData::Latest>("Sink",
-        [](MarketData::Latest value){
-            value.dump();
+    auto serialize = engine.addTransform<MarketData::Latest, std::string>("Serialize",
+        [](MarketData::Latest value) -> std::string{
+            auto result = Influxserializer::serialize_latest(value);
+            if(!result){
+                Error::log_error(result.error());
+            }
+            return *result;
+        });
+
+    auto sink = engine.addSink<std::string>("Sink",
+        [](std::string value){
+            std::cout<<value<<std::endl<<std::endl;
         });
     
     engine.connect(source, transform.input);
-    engine.connect(transform.output, sink);
+    engine.connect(transform.output, serialize.input);
+    engine.connect(serialize.output,sink);
+
     engine.run();
 }
 
