@@ -6,11 +6,16 @@
 
 class InfluxDBClient{
     private:
+    std::string database;
     const char* token;
+    CURL* curl;
+    struct curl_slist* headers;
 
     public:
-    InfluxDBClient();
+    InfluxDBClient(std::string);
+    ~InfluxDBClient();
 
     
-    void write(std::string&& data);
+    void write(std::string);
+    std::string test();
 };

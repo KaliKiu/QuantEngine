@@ -23,8 +23,9 @@
 int main(){
     quant::Engine engine;
     HttpClient http("https://biquote.io/api/latest?&symbols=XAUUSD");
-    
-    
+    InfluxDBClient ok("moew");
+    std::cout <<ok.test();
+
     auto source = engine.addSource<std::string>("Source",
     //producer lamda
         [&http](auto push){
@@ -53,7 +54,7 @@ int main(){
         });
 
     auto sink = engine.addSink<std::string>("Sink",
-        [](std::string value){
+        [](std::string value) -> void{
             std::cout<<value<<std::endl<<std::endl;
         });
     

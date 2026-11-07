@@ -6,5 +6,5 @@
 #include "../Data/marketdata.hpp"
 
 namespace Influxserializer{
-    tl::expected<std::string,Error::InfluxDBError> serialize_latest(MarketData::Latest data);
+    tl::expected<std::string,Error::InfluxDBError> serialize_latest(MarketData::Latest);
 }

@@ -5,3 +5,5 @@
 todo.txt
 .clangd
 install_influxdb3.sh
+.env
+start_influxdb3.sh
